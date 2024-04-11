@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -14,8 +15,9 @@ class Games(models.Model):
     description = models.TextField()
     number_of_players = models.IntegerField()
     controller = models.BooleanField(default=False)
-    rating = models.PositiveSmallIntegerField(choices=RATING_CHOICES, default=False)
+    rating = models.PositiveSmallIntegerField(choices=RATING_CHOICES, null=True)
     cat = models.ForeignKey('Category', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
