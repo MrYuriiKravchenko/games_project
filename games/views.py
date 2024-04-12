@@ -4,12 +4,14 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.response import Response
 
 from .models import Games, Category
+from .permissions import IsAuthorOrReadOnly
 from .serializers import GamesSerializer
 
 
 class GamesViewSet(viewsets.ModelViewSet):
     queryset = Games.objects.all()
     serializer_class = GamesSerializer
+    permission_classes = (IsAuthorOrReadOnly,)
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['title', 'description']
     ordering_fields = ['rating', 'title']
