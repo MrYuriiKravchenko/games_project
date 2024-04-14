@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from environs import Env
+
+env = Env()
+env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,6 +29,9 @@ SECRET_KEY = 'django-insecure-0smd6ra*+3cuwjwf&l%*(=gw@r*z1$e89kzmxl#%1(%#i*+$-=
 DEBUG = True
 
 ALLOWED_HOSTS = []
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 
 # Application definition
 
@@ -35,14 +42,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    "debug_toolbar",
 
     'rest_framework',
     'corsheaders',
     'rest_framework.authtoken',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     'dj_rest_auth',
+    'dj_rest_auth.registration',
 
     'games.apps.GamesConfig',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -53,6 +67,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'games_project.urls'
@@ -68,10 +84,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
 ]
+
+
+SITE_ID = 1
 
 WSGI_APPLICATION = 'games_project.wsgi.application'
 
@@ -136,6 +156,9 @@ CORS_ORIGIN_WHITELIST = (
 CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
 
 REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 4,
+
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
@@ -144,3 +167,16 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",
     ],
 }
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'kravchenkoyurii3@gmail.com'
+EMAIL_HOST_PASSWORD = 'vdmn rxig cfrq iqzd '
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = EMAIL_HOST_USER
+

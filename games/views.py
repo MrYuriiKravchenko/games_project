@@ -20,3 +20,4 @@ class GamesViewSet(viewsets.ModelViewSet):
     def category(self, request, pk=None):
         cats = Category.objects.get(pk=pk)
         return Response({'cats': cats.name})
+

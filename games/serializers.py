@@ -8,4 +8,5 @@ class GamesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Games
-        fields = '__all__'
+        fields = ('id', 'title', 'description', 'controller',
+                  'rating', 'time_create', 'user', 'cat', )
