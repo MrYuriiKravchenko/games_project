@@ -13,7 +13,7 @@ class Games(models.Model):
     time_create = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=255)
     description = models.TextField()
-    number_of_players = models.IntegerField()
+    number_of_players = models.IntegerField(null=True, blank=True)
     controller = models.BooleanField(default=False)
     rating = models.PositiveSmallIntegerField(choices=RATING_CHOICES, null=True)
     cat = models.ForeignKey('Category', on_delete=models.CASCADE)
